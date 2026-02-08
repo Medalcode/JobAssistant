@@ -22,5 +22,23 @@ curl -X POST http://127.0.0.1:5000/api/submit \
 
 La base de datos SQLite se crea en `data/cv.db` automáticamente.
 
+## Despliegue en Vercel (con Supabase)
+
+Resumen de pasos rápidos:
+
+- Crea un proyecto en Supabase y ejecuta el SQL en `schema.sql` (Tools → SQL Editor → Run).
+- En Vercel, crea un nuevo proyecto y conecta este repositorio de GitHub.
+- En la configuración del proyecto en Vercel, añade las variables de entorno:
+	- `SUPABASE_URL` = `https://<tu-proyecto>.supabase.co`
+	- `SUPABASE_KEY` = la `service_role` key (secreta) desde Settings → API en Supabase
+- Asegúrate de que `requirements.txt` incluya `requests` (ya está incluido).
+- La función serverless que recibe el formulario se encuentra en `api/submit.py`.
+
+Cuando Vercel despliegue, el frontend estático se servirá y las llamadas fetch a `/api/submit` serán manejadas por la función serverless, que insertará en Supabase.
+
+Notas importantes:
+- Usar la `service_role` key implica responsabilidad: guárdala como secreto en Vercel y no la publiques.
+- Si prefieres mantener la base de datos en SQLite local, Vercel no es adecuada (filesystem es efímero).
+
 ## Esquema de base de datos
 El esquema esta en `schema.sql` y se inicializa automaticamente en `data/cv.db` al arrancar la app.
