@@ -51,6 +51,72 @@ function collectMain() {
   return data;
 }
 
+// Auto-save to localStorage
+function saveFormData() {
+  const data = {
+    main: collectMain(),
+    sections: {}
+  };
+
+  sections.forEach(section => {
+    data.sections[section] = collectSection(section);
+  });
+
+  localStorage.setItem('cvFormData', JSON.stringify(data));
+}
+
+function loadFormData() {
+  const saved = localStorage.getItem('cvFormData');
+  if (!saved) return;
+
+  try {
+    const data = JSON.parse(saved);
+
+    // Restore main fields
+    if (data.main) {
+      Object.keys(data.main).forEach(key => {
+        const field = document.querySelector(`[data-main="${key}"]`);
+        if (field) field.value = data.main[key] || '';
+      });
+    }
+
+    // Restore sections
+    if (data.sections) {
+      sections.forEach(section => {
+        const items = data.sections[section] || [];
+        const container = document.querySelector(`[data-section="${section}"]`);
+        if (!container) return;
+
+        // Clear existing items
+        container.innerHTML = '';
+
+        // Add saved items
+        items.forEach(itemData => {
+          addItem(section);
+          const lastItem = container.querySelector('.item:last-child');
+          if (!lastItem) return;
+
+          Object.keys(itemData).forEach(key => {
+            const field = lastItem.querySelector(`[data-field="${key}"]`);
+            if (field) field.value = itemData[key] || '';
+          });
+        });
+
+        // Add one empty item if none exist
+        if (items.length === 0) {
+          addItem(section);
+        }
+      });
+    }
+  } catch (e) {
+    console.error('Error loading saved data:', e);
+  }
+}
+
+function clearFormData() {
+  localStorage.removeItem('cvFormData');
+}
+
 function setStatus(message, type = "") {
   const status = document.getElementById("status");
   if (!status) return;
@@ -288,12 +354,32 @@ async function generateSummary() {
 }
 
 function init() {
+  // Load saved data first
+  loadFormData();
+
+  // If no saved data, add initial empty items
   sections.forEach((section) => {
+    const container = document.querySelector(`[data-section="${section}"]`);
+    if (!container || container.children.length === 0) {
+      addItem(section);
+    }
+
     const addBtn = document.querySelector(`[data-add="${section}"]`);
     if (addBtn) {
-      addBtn.addEventListener("click", () => addItem(section));
+      addBtn.addEventListener("click", () => {
+        addItem(section);
+        saveFormData(); // Save after adding
+      });
     }
-    addItem(section); // Add initial empty item
+  });
+
+  // Auto-save on input changes (debounced)
+  let saveTimeout;
+  document.addEventListener('input', (e) => {
+    if (e.target.matches('[data-main], [data-field]')) {
+      clearTimeout(saveTimeout);
+      saveTimeout = setTimeout(saveFormData, 500); // Save 500ms after typing stops
+    }
   });
 
   // AI Generator Listeners
@@ -301,6 +387,7 @@ function init() {
   document.getElementById("close-ai-options")?.addEventListener("click", () => {
     document.getElementById("ai-options-container")?.classList.add("hidden");
   });
+
 
   showStep(currentStep);
 
@@ -371,6 +458,9 @@ function init() {
 
       // Store ID globally for apply function
       window.currentCandidateId = result.candidate_id;
+
+      // Clear localStorage since data is now saved to server
+      clearFormData();
 
       // Move to Step 5 (Search)
       currentStep = 5;
