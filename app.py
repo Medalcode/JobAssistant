@@ -15,15 +15,30 @@ from models import (
 BASE_DIR = Path(__file__).resolve().parent
 
 # Database Config
-db_path = BASE_DIR / "data" / "cv.db"
-# If DATABASE_URL is set (Vercel/Prod), use it. Otherwise use local SQLite.
-# Note: Vercel Postgres uses "postgres://", SQLAlchemy needs "postgresql://"
+# If DATABASE_URL is set (Vercel/Prod), use it. 
+# If on Vercel without DB, use /tmp (ephemeral).
+# Otherwise use local data directory.
 database_url = os.environ.get('DATABASE_URL')
+
 if database_url and database_url.startswith("postgres://"):
     database_url = database_url.replace("postgres://", "postgresql://", 1)
 
-app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = database_url or f"sqlite:///{db_path}"
+if not database_url:
+    if os.environ.get('VERCEL'):
+        # Ephemeral DB in /tmp for Vercel
+        db_path = Path("/tmp/cv.db")
+    else:
+        # Local Persistent DB
+        db_path = BASE_DIR / "data" / "cv.db"
+        db_path.parent.mkdir(parents=True, exist_ok=True)
+    
+    sqlite_uri = f"sqlite:///{db_path}"
+    app = Flask(__name__)
+    app.config['SQLALCHEMY_DATABASE_URI'] = sqlite_uri
+else:
+    app = Flask(__name__)
+    app.config['SQLALCHEMY_DATABASE_URI'] = database_url
+
 app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
 
 db.init_app(app)
@@ -35,9 +50,7 @@ with app.app_context():
     except Exception as e:
         print(f"Error creating database tables: {e}")
 
-# Ensure data directory exists for local sqlite
-if not database_url:
-    db_path.parent.mkdir(parents=True, exist_ok=True)
+
 
 
 @app.route("/")
