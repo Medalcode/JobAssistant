@@ -84,3 +84,25 @@ CREATE TABLE IF NOT EXISTS links (
   url TEXT,
   FOREIGN KEY(candidate_id) REFERENCES candidates(id) ON DELETE CASCADE
 );
+
+CREATE TABLE IF NOT EXISTS jobs (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  title TEXT NOT NULL,
+  company TEXT,
+  location TEXT,
+  description TEXT,
+  url TEXT UNIQUE,
+  source TEXT,
+  date_posted TEXT,
+  logo TEXT,
+  created_at TEXT DEFAULT CURRENT_TIMESTAMP
+);
+
+CREATE TABLE IF NOT EXISTS applications (
+  id INTEGER PRIMARY KEY AUTOINCREMENT,
+  candidate_id INTEGER REFERENCES candidates(id) ON DELETE CASCADE,
+  job_id INTEGER REFERENCES jobs(id) ON DELETE CASCADE,
+  status TEXT DEFAULT 'Applied',
+  tailored_cv_path TEXT,
+  date_applied TEXT DEFAULT CURRENT_TIMESTAMP
+);

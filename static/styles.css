@@ -174,3 +174,122 @@ textarea {
     align-items: flex-start;
   }
 }
+
+.download-options {
+  display: flex;
+  gap: 10px;
+}
+.btn.secondary {
+  border-color: var(--accent-2);
+  color: var(--accent-2);
+}
+.btn.secondary:hover {
+  background: var(--accent-2);
+  color: white;
+}
+
+
+.hidden {
+  display: none !important;
+}
+
+.templates-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 20px;
+}
+
+.template-card {
+  background: var(--card);
+  border-radius: 18px;
+  padding: 24px;
+  box-shadow: var(--shadow);
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
+  align-items: center;
+  text-align: center;
+  transition: transform 0.2s, box-shadow 0.2s;
+  cursor: pointer;
+}
+
+.template-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 15px 35px rgba(0, 0, 0, 0.12);
+}
+
+.template-card h3 {
+  margin: 0;
+  font-size: 1.2rem;
+}
+
+.template-card p {
+  color: var(--muted);
+  font-size: 0.9rem;
+  margin: 0;
+}
+
+.template-preview {
+  width: 100%;
+  height: 180px;
+  background: white;
+  border: 1px solid var(--border);
+  border-radius: 8px;
+  position: relative;
+  overflow: hidden;
+  margin-bottom: 8px;
+}
+
+/* Classic Preview */
+.template-preview.classic {
+  display: flex;
+  flex-direction: column;
+  padding: 20px;
+  gap: 10px;
+}
+.template-preview.classic .preview-line {
+  height: 8px;
+  background: #eee;
+  border-radius: 4px;
+  width: 100%;
+}
+.template-preview.classic .preview-line:first-child {
+  width: 60%;
+  height: 12px;
+  background: #333;
+}
+
+/* Modern Preview */
+.template-preview.modern {
+  display: flex;
+}
+.template-preview.modern .preview-side {
+  width: 30%;
+  background: #f0f0f0;
+  height: 100%;
+}
+.template-preview.modern .preview-content {
+  width: 70%;
+  background: white;
+}
+
+/* Uno Preview */
+.template-preview.uno {
+  display: flex;
+  flex-direction: column;
+}
+.template-preview.uno .preview-header {
+  width: 100%;
+  height: 40px;
+  background: #212F3D;
+}
+
+.wizard-actions {
+  display: flex;
+  justify-content: space-between;
+  margin-top: 20px;
+}
+
+.wizard-step.hidden {
+  display: none;
+}

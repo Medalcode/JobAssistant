@@ -1,4 +1,35 @@
-.venv/
+
+# Python
 __pycache__/
-*.pyc
-data/cv.db
+*.py[cod]
+*$py.class
+
+# Environment
+.venv/
+env/
+venv/
+ENV/
+.env
+
+# Flask & Deployment
+instance/
+.webassets-cache
+app.log
+vercel.json.bkp
+
+# Database
+*.db
+*.sqlite3
+
+# Generated Content
+*.pdf
+static/downloads/
+
+# IDEs
+.vscode/
+.idea/
+
+# Testing
+.pytest_cache/
+htmlcov/
+.coverage
