@@ -88,10 +88,6 @@ class ClassicPDF(BasePDF):
                 if exp['description']:
                     self.set_font("Arial", "", 10)
                     self.multi_cell(0, 5, exp['description'])
-                if exp['achievements']:
-                    self.ln(1)
-                    self.set_font("Arial", "", 9)
-                    self.multi_cell(0, 4, f"Achievements: {exp['achievements']}")
                 self.ln(3)
             self.ln(2)
 
@@ -240,10 +236,6 @@ class ModernPDF(BasePDF):
                 if exp['description']:
                     self.set_font("Times", "", 10)
                     self.multi_cell(0, 5, exp['description'])
-                if exp['achievements']:
-                    self.ln(1)
-                    self.set_font("Times", "I", 10)
-                    self.multi_cell(0, 5, f"> {exp['achievements']}")
                 self.ln(4)
 
         # Education
@@ -373,10 +365,6 @@ class TemplateUnoPDF(BasePDF):
                 if exp['description']:
                     self.set_font("Arial", "", 10)
                     self.multi_cell(0, 5, exp['description'])
-                if exp['achievements']:
-                    self.ln(1)
-                    self.set_font("Arial", "", 9)
-                    self.multi_cell(0, 4, f"> {exp['achievements']}")
                 self.ln(4)
 
         # Education

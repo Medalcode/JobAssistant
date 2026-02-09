@@ -43,7 +43,6 @@ class Experience(BaseModel):
     start_date = db.Column(db.String)
     end_date = db.Column(db.String)
     description = db.Column(db.Text)
-    achievements = db.Column(db.Text)
 
 class Education(BaseModel):
     __tablename__ = 'educations'

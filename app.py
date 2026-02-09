@@ -98,8 +98,7 @@ def submit():
             location=exp.get("location", "").strip(),
             start_date=exp.get("start_date", "").strip(),
             end_date=exp.get("end_date", "").strip(),
-            description=exp.get("description", "").strip(),
-            achievements=exp.get("achievements", "").strip()
+            description=exp.get("description", "").strip()
         ))
 
     # Educations
