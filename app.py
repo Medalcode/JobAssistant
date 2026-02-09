@@ -30,7 +30,10 @@ db.init_app(app)
 
 # Create tables if they don't exist (for Vercel/Prod)
 with app.app_context():
-    db.create_all()
+    try:
+        db.create_all()
+    except Exception as e:
+        print(f"Error creating database tables: {e}")
 
 # Ensure data directory exists for local sqlite
 if not database_url:
