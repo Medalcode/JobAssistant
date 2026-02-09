@@ -388,6 +388,18 @@ function init() {
     document.getElementById("ai-options-container")?.classList.add("hidden");
   });
 
+  // Manual Save Button
+  document.getElementById("manual-save")?.addEventListener("click", () => {
+    saveFormData();
+    const btn = document.getElementById("manual-save");
+    const originalText = btn.textContent;
+    btn.textContent = "✓ Guardado";
+    btn.style.backgroundColor = "#28a745";
+    setTimeout(() => {
+      btn.textContent = originalText;
+      btn.style.backgroundColor = "";
+    }, 1500);
+  });
 
   showStep(currentStep);
 
