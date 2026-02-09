@@ -439,6 +439,7 @@ function init() {
 
   form.addEventListener("submit", async (event) => {
     event.preventDefault();
+    console.log("Form submit triggered");
     setStatus("Guardando...", "info");
 
     const payload = {
@@ -452,6 +453,8 @@ function init() {
       links: collectSection("links"),
     };
 
+    console.log("Payload:", payload);
+
     try {
       const response = await fetch("/api/submit", {
         method: "POST",
@@ -459,14 +462,18 @@ function init() {
         body: JSON.stringify(payload),
       });
 
+      console.log("Response status:", response.status);
+
       if (!response.ok) {
         const data = await response.json().catch(() => ({}));
+        console.error("Error response:", data);
         const fields = data.fields ? ` Faltan: ${data.fields.join(", ")}` : "";
         throw new Error(data.error ? `${data.error}.${fields}` : "Error al guardar.");
       }
 
       const result = await response.json();
-      setStatus(`Guardado con ID ${result.candidate_id}.`, "success");
+      console.log("Success result:", result);
+      setStatus(`✓ Guardado con ID ${result.candidate_id}`, "success");
 
       // Store ID globally for apply function
       window.currentCandidateId = result.candidate_id;
@@ -475,10 +482,13 @@ function init() {
       clearFormData();
 
       // Move to Step 5 (Search)
-      currentStep = 5;
-      showStep(currentStep);
+      setTimeout(() => {
+        currentStep = 5;
+        showStep(currentStep);
+      }, 1500); // Give user time to see success message
 
     } catch (error) {
+      console.error("Submit error:", error);
       setStatus(error.message || "Error inesperado.", "error");
     }
   });
