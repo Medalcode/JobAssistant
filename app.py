@@ -205,6 +205,38 @@ def download_pdf(candidate_id):
     return response
 
 
+@app.post("/api/generate_summary")
+def generate_summary():
+    data = request.get_json(silent=True) or {}
+    
+    title = data.get("professional_title", "Profesional")
+    skills = data.get("skills", []) # List of dicts {name, level}
+    experiences = data.get("experiences", []) # List of dicts {company, role...}
+    
+    skill_names = [s.get("name", "") for s in skills if s.get("name")]
+    top_skills = ", ".join(skill_names[:5]) if skill_names else "habilidades clave"
+    
+    exp_roles = [e.get("role", "") for e in experiences if e.get("role")]
+    last_role = exp_roles[0] if exp_roles else "Profesional"
+    years_exp = len(experiences) # Simple heuristic
+    
+    # Simple templates (in Spanish as requested)
+    options = []
+    
+    # Option 1: Standard/Professional
+    opt1 = f"{title} con experiencia sólida como {last_role}. EXPERTO en {top_skills}. Busco aportar mis conocimientos en proyectos desafiantes y continuar creciendo profesionalmente."
+    options.append(opt1)
+    
+    # Option 2: Skill-driven
+    opt2 = f"Apasionado {title} especializado en {top_skills}. Con trayectoria probada en {', '.join(exp_roles[:2]) if exp_roles else 'diferentes roles'}, enfocado en la entrega de soluciones de alta calidad y la mejora continua."
+    options.append(opt2)
+    
+    # Option 3: Concise/Impact
+    opt3 = f"{title} altamente motivado con enfoque en resultados. Dominio de {top_skills}. Historial comprobado de éxito en entornos dinámicos y capacidad para trabajar en equipo."
+    options.append(opt3)
+    
+    return jsonify({"options": options})
+
 @app.route("/api/search")
 def search_jobs_route():
     query = request.args.get('q', '')

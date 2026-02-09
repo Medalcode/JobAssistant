@@ -12,190 +12,204 @@
   <main class="page">
     <header id="main-header" class="header">
       <h1>Formulario de CV</h1>
-      <header id="main-header" class="header">
-        <h1>Formulario de CV</h1>
-        <p>Paso <span id="current-step-display">1</span> de 6</p>
-      </header>
-      <header id="template-header" class="header hidden">
-        <h1>Elige un Diseño</h1>
-        <p>Selecciona el template que mas te guste para tu CV.</p>
-        <button id="back-to-form" class="btn ghost">← Volver al formulario</button>
-      </header>
+      <p>Paso <span id="current-step-display">1</span> de 6</p>
+    </header>
+    <header id="template-header" class="header hidden">
+      <h1>Elige un Diseño</h1>
+      <p>Selecciona el template que mas te guste para tu CV.</p>
+      <button id="back-to-form" class="btn ghost">← Volver al formulario</button>
+    </header>
 
-      <form id="cv-form" class="card">
+    <form id="cv-form" class="card">
 
-        <!-- Step 1: Personal Info -->
-        <div class="wizard-step" data-step="1">
-          <section class="section">
-            <h2>Informacion personal</h2>
-            <div class="grid">
-              <label>
-                Nombre completo *
-                <input type="text" data-main="full_name" required />
-              </label>
-              <label>
-                Titulo profesional
-                <input type="text" data-main="professional_title" />
-              </label>
-              <label>
-                Ubicacion
-                <input type="text" data-main="location" />
-              </label>
-              <label>
-                Telefono
-                <input type="text" data-main="phone" />
-              </label>
-              <label>
-                Email *
-                <input type="email" data-main="email" required />
-              </label>
-              <label>
-                LinkedIn
-                <input type="url" data-main="linkedin" placeholder="https://..." />
-              </label>
-              <label>
-                Portafolio
-                <input type="url" data-main="portfolio" placeholder="https://..." />
-              </label>
-              <label>
-                GitHub
-                <input type="url" data-main="github" placeholder="https://..." />
-              </label>
-            </div>
+      <!-- Step 1: Personal Info -->
+      <div class="wizard-step" data-step="1">
+        <section class="section">
+          <h2>Informacion personal</h2>
+          <div class="grid">
             <label>
-              Resumen profesional
-              <textarea rows="4" data-main="summary"></textarea>
+              Nombre completo *
+              <input type="text" data-main="full_name" required />
             </label>
-          </section>
-        </div>
-
-        <!-- Step 2: Experience & Education -->
-        <div class="wizard-step hidden" data-step="2">
-          <section class="section">
-            <div class="section-header">
-              <h2>Experiencia laboral</h2>
-              <button type="button" class="btn" data-add="experiences">Agregar</button>
-            </div>
-            <div class="collection" data-section="experiences"></div>
-          </section>
-
-          <section class="section">
-            <div class="section-header">
-              <h2>Educacion</h2>
-              <button type="button" class="btn" data-add="educations">Agregar</button>
-            </div>
-            <div class="collection" data-section="educations"></div>
-          </section>
-        </div>
-
-        <!-- Step 3: Skills, Languages & Certifications -->
-        <div class="wizard-step hidden" data-step="3">
-          <section class="section">
-            <div class="section-header">
-              <h2>Habilidades</h2>
-              <button type="button" class="btn" data-add="skills">Agregar</button>
-            </div>
-            <div class="collection" data-section="skills"></div>
-          </section>
-
-          <section class="section">
-            <div class="section-header">
-              <h2>Idiomas</h2>
-              <button type="button" class="btn" data-add="languages">Agregar</button>
-            </div>
-            <div class="collection" data-section="languages"></div>
-          </section>
-
-          <section class="section">
-            <div class="section-header">
-              <h2>Certificaciones</h2>
-              <button type="button" class="btn" data-add="certifications">Agregar</button>
-            </div>
-            <div class="collection" data-section="certifications"></div>
-          </section>
-        </div>
-
-        <!-- Step 4: Projects & Links + Submit -->
-        <div class="wizard-step hidden" data-step="4">
-          <section class="section">
-            <div class="section-header">
-              <h2>Proyectos</h2>
-              <button type="button" class="btn" data-add="projects">Agregar</button>
-            </div>
-            <div class="collection" data-section="projects"></div>
-          </section>
-
-          <section class="section">
-            <div class="section-header">
-              <h2>Links adicionales</h2>
-              <button type="button" class="btn" data-add="links">Agregar</button>
-            </div>
-            <div class="collection" data-section="links"></div>
-          </section>
-        </div>
-
-        <!-- Step 5: Job Search -->
-        <div class="wizard-step hidden" data-step="5">
-          <section class="section">
-            <h2>Búsqueda de Empleo</h2>
-            <p class="text-muted">Busca ofertas relevantes y postúlate directamente.</p>
-            <div class="grid search-grid" style="grid-template-columns: 2fr 1fr auto; align-items: end;">
-              <label>Query<input type="text" id="job-query" placeholder="Ej: Python, React..." /></label>
-              <label>Ubicación<input type="text" id="job-location" placeholder="Ej: Remoto..." /></label>
-              <button type="button" id="btn-search-jobs" class="btn primary" style="height: 42px;">Buscar</button>
-            </div>
-            <div id="job-results" class="job-results"
-              style="margin-top: 20px; display: flex; flex-direction: column; gap: 15px;">
-              <p class="text-center text-muted">Ingresa criterios arriba para buscar.</p>
-            </div>
-          </section>
-        </div>
-
-        <div class="actions wizard-actions">
-          <button type="button" id="prev-step" class="btn ghost hidden">Anterior</button>
-          <button type="button" id="next-step" class="btn primary">Siguiente</button>
-          <button type="submit" id="submit-form" class="btn primary hidden">Guardar y Continuar</button>
-          <button type="button" id="skip-to-templates" class="btn ghost hidden">Saltar a Descargas</button>
-          <span id="status" class="status"></span>
-        </div>
-      </form>
-
-      <div id="template-selection" class="hidden">
-        <div class="templates-grid">
-
-          <div class="template-card">
-            <div class="template-preview classic">
-              <div class="preview-line"></div>
-              <div class="preview-line"></div>
-            </div>
-            <h3>Clásico</h3>
-            <p>Diseño simple y limpio, ideal para ATS.</p>
-            <button class="btn full-width" data-download="classic">Seleccionar</button>
+            <label>
+              Titulo profesional
+              <input type="text" data-main="professional_title" />
+            </label>
+            <label>
+              Ubicacion
+              <input type="text" data-main="location" />
+            </label>
+            <label>
+              Telefono
+              <input type="text" data-main="phone" />
+            </label>
+            <label>
+              Email *
+              <input type="email" data-main="email" required />
+            </label>
+            <label>
+              LinkedIn
+              <input type="url" data-main="linkedin" placeholder="https://..." />
+            </label>
+            <label>
+              Portafolio
+              <input type="url" data-main="portfolio" placeholder="https://..." />
+            </label>
+            <label>
+              GitHub
+              <input type="url" data-main="github" placeholder="https://..." />
+            </label>
           </div>
-
-          <div class="template-card">
-            <div class="template-preview modern">
-              <div class="preview-side"></div>
-              <div class="preview-content"></div>
-            </div>
-            <h3>Moderno</h3>
-            <p>Elegante con acentos de color y estructura a dos columnas.</p>
-            <button class="btn full-width secondary" data-download="modern">Seleccionar</button>
-          </div>
-
-          <div class="template-card">
-            <div class="template-preview uno">
-              <div class="preview-header"></div>
-            </div>
-            <h3>Uno</h3>
-            <p>Estilo profesional con cabecera oscura.</p>
-            <button class="btn full-width primary"
-              style="background-color: #212F3D; border-color: #212F3D; color: white;"
-              data-download="uno">Seleccionar</button>
-          </div>
-
-        </div>
+        </section>
       </div>
+
+      <!-- Step 2: Experience & Education -->
+      <div class="wizard-step hidden" data-step="2">
+        <section class="section">
+          <div class="section-header">
+            <h2>Experiencia laboral</h2>
+            <button type="button" class="btn" data-add="experiences">Agregar</button>
+          </div>
+          <div class="collection" data-section="experiences"></div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <h2>Educacion</h2>
+            <button type="button" class="btn" data-add="educations">Agregar</button>
+          </div>
+          <div class="collection" data-section="educations"></div>
+        </section>
+      </div>
+
+      <!-- Step 3: Skills, Languages & Certifications -->
+      <div class="wizard-step hidden" data-step="3">
+        <section class="section">
+          <div class="section-header">
+            <h2>Habilidades</h2>
+            <button type="button" class="btn" data-add="skills">Agregar</button>
+          </div>
+          <div class="collection" data-section="skills"></div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <h2>Idiomas</h2>
+            <button type="button" class="btn" data-add="languages">Agregar</button>
+          </div>
+          <div class="collection" data-section="languages"></div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <h2>Certificaciones</h2>
+            <button type="button" class="btn" data-add="certifications">Agregar</button>
+          </div>
+          <div class="collection" data-section="certifications"></div>
+        </section>
+      </div>
+
+      <!-- Step 4: Projects & Links + Submit -->
+      <div class="wizard-step hidden" data-step="4">
+        <section class="section">
+          <div class="section-header">
+            <h2>Proyectos</h2>
+            <button type="button" class="btn" data-add="projects">Agregar</button>
+          </div>
+          <div class="collection" data-section="projects"></div>
+        </section>
+
+        <section class="section">
+          <div class="section-header">
+            <h2>Links adicionales</h2>
+            <button type="button" class="btn" data-add="links">Agregar</button>
+          </div>
+          <div class="collection" data-section="links"></div>
+        </section>
+
+        <section class="section"
+          style="margin-top: 2rem; border-top: 1px solid var(--border-color); padding-top: 2rem;">
+          <div class="section-header">
+            <h2>Perfil Profesional</h2>
+            <button type="button" id="btn-generate-summary" class="btn secondary">✨ Generar con IA</button>
+          </div>
+          <p class="text-muted" style="margin-bottom: 0.5rem; font-size: 0.9rem;">
+            Describe tus objetivos clave y perfil. Usa el botón de IA para generar ideas basadas en tu info.
+          </p>
+          <textarea rows="6" data-main="summary"
+            placeholder="Ej: Desarrollador Full Stack con 5 años de experiencia..."></textarea>
+
+          <!-- AI Options Container (Hidden by default) -->
+          <div id="ai-options-container" class="hidden"
+            style="margin-top: 1rem; padding: 1rem; background: var(--bg-hover); border-radius: 8px;">
+            <h4 style="margin-top: 0;">Opciones Generadas:</h4>
+            <div id="ai-options-list" style="display: flex; flex-direction: column; gap: 10px;"></div>
+            <button type="button" id="close-ai-options" class="btn ghost small" style="margin-top:10px">Cerrar</button>
+          </div>
+        </section>
+      </div>
+
+      <!-- Step 5: Job Search -->
+      <div class="wizard-step hidden" data-step="5">
+        <section class="section">
+          <h2>Búsqueda de Empleo</h2>
+          <p class="text-muted">Busca ofertas relevantes y postúlate directamente.</p>
+          <div class="grid search-grid" style="grid-template-columns: 2fr 1fr auto; align-items: end;">
+            <label>Query<input type="text" id="job-query" placeholder="Ej: Python, React..." /></label>
+            <label>Ubicación<input type="text" id="job-location" placeholder="Ej: Remoto..." /></label>
+            <button type="button" id="btn-search-jobs" class="btn primary" style="height: 42px;">Buscar</button>
+          </div>
+          <div id="job-results" class="job-results"
+            style="margin-top: 20px; display: flex; flex-direction: column; gap: 15px;">
+            <p class="text-center text-muted">Ingresa criterios arriba para buscar.</p>
+          </div>
+        </section>
+      </div>
+
+      <div class="actions wizard-actions">
+        <button type="button" id="prev-step" class="btn ghost hidden">Anterior</button>
+        <button type="button" id="next-step" class="btn primary">Siguiente</button>
+        <button type="submit" id="submit-form" class="btn primary hidden">Guardar y Continuar</button>
+        <button type="button" id="skip-to-templates" class="btn ghost hidden">Saltar a Descargas</button>
+        <span id="status" class="status"></span>
+      </div>
+    </form>
+
+    <div id="template-selection" class="hidden">
+      <div class="templates-grid">
+
+        <div class="template-card">
+          <div class="template-preview classic">
+            <div class="preview-line"></div>
+            <div class="preview-line"></div>
+          </div>
+          <h3>Clásico</h3>
+          <p>Diseño simple y limpio, ideal para ATS.</p>
+          <button class="btn full-width" data-download="classic">Seleccionar</button>
+        </div>
+
+        <div class="template-card">
+          <div class="template-preview modern">
+            <div class="preview-side"></div>
+            <div class="preview-content"></div>
+          </div>
+          <h3>Moderno</h3>
+          <p>Elegante con acentos de color y estructura a dos columnas.</p>
+          <button class="btn full-width secondary" data-download="modern">Seleccionar</button>
+        </div>
+
+        <div class="template-card">
+          <div class="template-preview uno">
+            <div class="preview-header"></div>
+          </div>
+          <h3>Uno</h3>
+          <p>Estilo profesional con cabecera oscura.</p>
+          <button class="btn full-width primary" style="background-color: #212F3D; border-color: #212F3D; color: white;"
+            data-download="uno">Seleccionar</button>
+        </div>
+
+      </div>
+    </div>
   </main>
 
   <template id="template-experiences">

@@ -234,13 +234,72 @@ async function applyJob(job) {
 }
 
 
+async function generateSummary() {
+  const btn = document.getElementById("btn-generate-summary");
+  if (!btn) return;
+
+  const originalText = btn.textContent;
+  btn.textContent = "Generando...";
+  btn.disabled = true;
+
+  try {
+    const data = {
+      ...collectMain(),
+      experiences: collectSection("experiences"),
+      skills: collectSection("skills")
+    };
+
+    const res = await fetch("/api/generate_summary", {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify(data)
+    });
+
+    const result = await res.json();
+
+    const container = document.getElementById("ai-options-container");
+    const list = document.getElementById("ai-options-list");
+    list.innerHTML = "";
+
+    result.options.forEach((opt) => {
+      const div = document.createElement("div");
+      div.style.cssText = "padding: 12px; border: 1px solid #ccc; border-radius: 6px; cursor: pointer; background: #fff; margin-bottom: 8px; font-size: 0.9rem; line-height: 1.4;";
+      div.textContent = opt;
+
+      div.onmouseover = () => div.style.borderColor = "var(--primary-color)";
+      div.onmouseout = () => div.style.borderColor = "#ccc";
+
+      div.onclick = () => {
+        document.querySelector('[data-main="summary"]').value = opt;
+        container.classList.add("hidden");
+      };
+
+      list.appendChild(div);
+    });
+
+    container.classList.remove("hidden");
+
+  } catch (e) {
+    alert("Error generando perfil: " + e.message);
+  } finally {
+    btn.textContent = originalText;
+    btn.disabled = false;
+  }
+}
+
 function init() {
   sections.forEach((section) => {
     const addBtn = document.querySelector(`[data-add="${section}"]`);
     if (addBtn) {
       addBtn.addEventListener("click", () => addItem(section));
     }
-    addItem(section);
+    addItem(section); // Add initial empty item
+  });
+
+  // AI Generator Listeners
+  document.getElementById("btn-generate-summary")?.addEventListener("click", generateSummary);
+  document.getElementById("close-ai-options")?.addEventListener("click", () => {
+    document.getElementById("ai-options-container")?.classList.add("hidden");
   });
 
   showStep(currentStep);
@@ -253,8 +312,7 @@ function init() {
   });
 
   document.getElementById("next-step")?.addEventListener("click", () => {
-    // Optional: Validate current step fields here
-    // Simple check for required fields in step 1
+    // Validate Step 1
     if (currentStep === 1) {
       const name = document.querySelector('[data-main="full_name"]').value;
       const email = document.querySelector('[data-main="email"]').value;
@@ -263,6 +321,7 @@ function init() {
         return;
       }
     }
+
     if (currentStep < totalSteps) {
       currentStep++;
       showStep(currentStep);
@@ -316,9 +375,6 @@ function init() {
       // Move to Step 5 (Search)
       currentStep = 5;
       showStep(currentStep);
-
-      // Removed form reset to preserve user data if they navigate "back" (via refresh currently, but conceptually)
-      // If we wanted real "edit" capability after generation, we'd need more logic.
 
     } catch (error) {
       setStatus(error.message || "Error inesperado.", "error");
