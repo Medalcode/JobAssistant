@@ -61,7 +61,6 @@ class Skill(BaseModel):
     candidate_id = db.Column(db.Integer, db.ForeignKey('candidates.id'), nullable=False)
     name = db.Column(db.String)
     level = db.Column(db.String)
-    category = db.Column(db.String)
 
 class Language(BaseModel):
     __tablename__ = 'languages'

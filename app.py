@@ -120,8 +120,7 @@ def submit():
         db.session.add(Skill(
             candidate_id=candidate.id,
             name=skill.get("name", "").strip(),
-            level=skill.get("level", "").strip(),
-            category=skill.get("category", "").strip()
+            level=skill.get("level", "").strip()
         ))
 
     # Languages
