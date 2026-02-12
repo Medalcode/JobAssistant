@@ -34,7 +34,21 @@ Aplicación web completa para crear CVs profesionales con asistencia de IA, bús
 
 **URL de producción**: [https://job-assistant-blush.vercel.app/](https://job-assistant-blush.vercel.app/)
 
-## 📋 Estructura del Formulario
+## 🤖 Arquitectura Agéntica (Nueva)
+
+El sistema integra una capa de agentes inteligentes capaces de realizar tareas autónomas:
+
+### Agentes Disponibles (`/agents`)
+1. **Job Scout**: Especialista en reclutamiento. Busca y filtra ofertas de empleo relevantes.
+2. **Resume Architect**: Diseñador experto. Genera CVs en PDF optimizados para ATS.
+3. **Career Strategist**: Coach de carrera. Analiza perfiles y sugiere mejoras estratégicas.
+
+### Habilidades (`/skills`)
+- **Market Research**: Búsqueda en tiempo real de ofertas laborales.
+- **Document Engineering**: Generación programática de documentos complejos.
+
+### Orquestación
+El script `agency.py` demuestra cómo estos agentes colaboran para realizar un flujo completo de búsqueda de empleo y aplicación.
 
 ### Paso 1: Información Personal
 - Nombre completo *
