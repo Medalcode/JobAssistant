@@ -39,13 +39,25 @@ Aplicación web completa para crear CVs profesionales con asistencia de IA, bús
 El sistema integra una capa de agentes inteligentes capaces de realizar tareas autónomas:
 
 ### Agentes Disponibles (`/agents`)
-1. **Job Scout**: Especialista en reclutamiento. Busca y filtra ofertas de empleo relevantes.
-2. **Resume Architect**: Diseñador experto. Genera CVs en PDF optimizados para ATS.
-3. **Career Strategist**: Coach de carrera. Analiza perfiles y sugiere mejoras estratégicas.
+1. **Job Scout**: Especialista en reclutamiento.
+   - 🕵️ **Búsqueda Expandida de Sinónimos**: (ej: "Python" -> "Django", "Backend").
+   - 🕷️ **Scraper de Computrabajo**: Usa Playwright para extraer ofertas reales.
+   - 📊 **Ranking de Match**: Ordena ofertas según compatibilidad con tu perfil.
+
+2. **Resume Architect**: Diseñador experto.
+   - 🎨 **Generación PDF**: CVs optimizados para ATS.
+   - 📝 **Auditoría ATS**: Analiza tu CV contra la oferta y sugiere mejoras de keywords.
+   - 🔄 **Reordenamiento Inteligente**: Prioriza skills relevantes para el puesto.
+
+3. **Career Strategist**: Coach de carrera.
+   - 🧠 **Análisis de Seniority**: Detecta tu nivel (Junior/Mid/Senior).
+   - 💡 **Gap Analysis**: Sugiere skills que te faltan para tu rol.
+   - ✍️ **Resúmenes Dinámicos**: Genera perfiles adaptados a tu experiencia.
 
 ### Habilidades (`/skills`)
-- **Market Research**: Búsqueda en tiempo real de ofertas laborales.
-- **Document Engineering**: Generación programática de documentos complejos.
+- **Market Research**: Búsqueda en tiempo real en Computrabajo.
+- **Document Engineering**: Generación de PDFs.
+- **Content Analysis**: Cálculo de ATS Score y extracción de keywords.
 
 ### Orquestación
 El script `agency.py` demuestra cómo estos agentes colaboran para realizar un flujo completo de búsqueda de empleo y aplicación.

@@ -15,34 +15,15 @@ def main():
     # Will use expanded synonyms (Python -> Django, Flask...) and Computrabajo Scraper
     print("\n--- Phase 1: Market Research (Job Scout) ---")
     query = "Python Developer"
-    jobs = scout.run(query=query, location="Santiago")
     
-    target_job = None
-    if not jobs:
-        print("No jobs found via scraper. Using mock job for demo purposes.")
-        target_job = {
-            "title": "Senior Python Engineer",
-            "company": "Tech Corp",
-            "description": "We are looking for a Python expert with Django and AWS experience. Must know Docker and Kubernetes. Agile methodology is a plus.",
-            "url": "#"
-        }
-    else:
-        target_job = jobs[0]
-        # Ensure description is not empty for ATS check
-        if not target_job.get('description'):
-            target_job['description'] = target_job['title'] + " " + target_job['company']
-            
-        print(f"Top Job Selected: {target_job['title']} at {target_job['company']}")
-
-    # --- Phase 2: Strategic Profiling ---
-    print("\n--- Phase 2: Career Strategy (Career Strategist) ---")
-    # A mid-level profile that has some gaps for the target job
+    # We need the profile first to rank properly, so let's define it here
     candidate_profile = {
         "professional_title": "Python Developer",
         "skills": [
             {"name": "Python", "level": "Expert"}, 
             {"name": "Flask", "level": "Advanced"}, 
-            {"name": "SQL", "level": "Intermediate"}
+            {"name": "SQL", "level": "Intermediate"},
+            {"name": "Django", "level": "Intermediate"}
         ],
         "experiences": [
             {
@@ -52,17 +33,39 @@ def main():
                 "end_date": "Present",
                 "description": "Developed REST APIs using Flask.",
                 "location": "Remote"
-            },
-            {
-                "role": "Junior Developer", 
-                "company": "Agency B", 
-                "start_date": "2021-01", 
-                "end_date": "2022-12",
-                "description": "Assisted in frontend and backend maintenance.",
-                "location": "Santiago"
             }
         ]
     }
+
+    jobs = scout.run(query=query, location="Santiago", profile_data=candidate_profile)
+    
+    target_job = None
+    if not jobs:
+        print("No jobs found via scraper. Using mock job for demo purposes.")
+        target_job = {
+            "title": "Senior Python Engineer",
+            "company": "Tech Corp",
+            "description": "We are looking for a Python expert with Django and AWS experience. Must know Docker and Kubernetes. Agile methodology is a plus.",
+            "url": "#",
+            "match_score": 85
+        }
+    else:
+        print(f"\n[{'MATCH':^7}] {'TITLE':<40} {'COMPANY':<20}")
+        print("-" * 70)
+        for i, job in enumerate(jobs[:5]): # Show top 5
+             print(f"[{job.get('match_score', 0):>3}%]   {job['title'][:38]:<40} {job['company'][:18]:<20}")
+        
+        target_job = jobs[0]
+        # Ensure description is not empty for ATS check
+        if not target_job.get('description'):
+            target_job['description'] = target_job['title'] + " " + target_job['company']
+            
+        print(f"\nSelected Top Candidate: {target_job['title']} at {target_job['company']}")
+
+    # --- Phase 2: Strategic Profiling ---
+    print("\n--- Phase 2: Career Strategy (Career Strategist) ---")
+    # A mid-level profile that has some gaps for the target job
+    # (Profile defined in Phase 1)
     
     strategy = strategist.run(candidate_profile)
     print(f"Seniority Level: {strategy['analysis'].get('seniority', 'Unknown')}")
